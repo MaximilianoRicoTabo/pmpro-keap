@@ -246,6 +246,19 @@ class PMPro_Keap_Api_Wrapper {
 		return true;
 	}
 
+	public function pmpro_keap_get_tags_for_contact( $contact_id ) {
+		return $this->pmpro_keap_make_request( 'GET', 'contacts/' . $contact_id . '/tags' );
+	}
+
+	public function pmpro_keap_get_tags_id_for_contact( $contact_id ) {
+		$tags = $this->pmpro_keap_get_tags_for_contact( $contact_id );
+		$tagIds = array();
+		foreach ( $tags[ 'tags' ] as $tag ) {
+			$tagIds[] = $tag[ 'tag' ][ 'id' ];
+		}
+		return $tagIds;
+	}
+
 	//getters for private attributes
 	public function pmpro_keap_get_token() {
 		return $this->token;
