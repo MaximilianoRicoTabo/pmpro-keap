@@ -178,3 +178,19 @@ function pmpro_keap_plugin_row_meta( $links, $file ) {
 	return $links;
 }
 add_filter( 'plugin_row_meta', 'pmpro_keap_plugin_row_meta', 10, 2 );
+
+/**
+ * Filter links to add  plugin settings page link.
+ *
+ * @param array $links The existing links array to filter.
+ * @return array The filtered links.
+ * @since 1.0
+ */
+function pmpro_keap_add_action_links( $links ) {
+
+	$new_links = array(
+		'<a href="' . admin_url( 'admin.php?page=pmpro-keap' ) . '">' . __( 'Settings', 'pmpro-keap' ) . '</a>',
+	);
+	return array_merge( $new_links, $links );
+}
+add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'pmpro_keap_add_action_links' );
