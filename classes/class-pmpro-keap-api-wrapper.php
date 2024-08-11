@@ -231,7 +231,6 @@ class PMPro_Keap_Api_Wrapper {
 		$data = [
 			'tagIds' => $tagIds
 		];
-
 		return $this->pmpro_keap_make_request( 'POST', 'contacts/' . $contact_id . '/tags', $data );
 	}
 

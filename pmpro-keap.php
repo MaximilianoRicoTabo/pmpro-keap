@@ -94,7 +94,7 @@ function pmpro_keap_update_keap_contact( $user_id ) {
 		}
 	}
 
-	$new_tags_id = array_unique( array_merge( $new_tags_id, $options['users_tags'] ) );
+	$new_tags_id = array_values( array_unique( array_merge( $new_tags_id, $options['users_tags'] ) ) );
 
 	// Fetch current tags from Keap for the contact (if needed, depending on the API design).
 	$existing_tags_id = $keap->pmpro_keap_get_tags_id_for_contact( $contact_id );
