@@ -185,9 +185,9 @@ class PMPro_Keap_Api_Wrapper {
 
 	/**
 	 * Get Keap contact given an email
-	 * 
+	 *
 	 * @param string $email The email.
-	 * @return array The contact.
+	 * @return array The contact.  https://developer.keap.com/docs/rest/#tag/Contact/operation/listContactsUsingGET
 	 * @since 1.0
 	 */
 	public function pmpro_keap_get_contact_by_email( $email ) {
@@ -202,7 +202,6 @@ class PMPro_Keap_Api_Wrapper {
 	 * @since 1.0
 	 */
 	public function pmpro_keap_add_contact( $user ) {
-		//get user by email
 		$data = $this->pmpro_keap_format_contact_request( $user );
 		return $this->pmpro_keap_make_request('POST', 'contacts', $data );
 	}
@@ -232,18 +231,52 @@ class PMPro_Keap_Api_Wrapper {
 		$data = [
 			'tagIds' => $tagIds
 		];
-
 		return $this->pmpro_keap_make_request( 'POST', 'contacts/' . $contact_id . '/tags', $data );
 	}
 
+	/**
+	 * Remove tags from a contact.
+	 *
+	 * @param string $contact_id The contact ID.
+	 * @param array $tagIds The tag IDs.
+	 * @return bool True if the tags were removed successfully or false otherwise.
+	 * @since 1.0
+	 */
 	public function pmpro_keap_remove_tags_from_contact( $contact_id, $tagIds ) {		
 		foreach ( $tagIds as $tagId ) {
 			$ret = $this->pmpro_keap_make_request( 'DELETE', 'contacts/' . $contact_id . '/tags/' . $tagId );
-			//TODO handle errors
-			
+			if ( isset( $ret[ 'fault' ] ) ) {
+				return false;
+			}
 		}
-		//assume success
 		return true;
+	}
+
+	/**
+	 * Get tags for a contact.
+	 *
+	 * @param string $contact_id The contact ID.
+	 * @return array The tags. @see https://developer.keap.com/docs/rest/#tag/Contact/operation/listAppliedTagsUsingGET
+	 * @since 1.0
+	 */
+	public function pmpro_keap_get_tags_for_contact( $contact_id ) {
+		return $this->pmpro_keap_make_request( 'GET', 'contacts/' . $contact_id . '/tags' );
+	}
+
+	/**
+	 * Get tags ID for a contact.
+	 *
+	 * @param string $contact_id The contact ID.
+	 * @return array The tag IDs.
+	 * @since 1.0
+	 */
+	public function pmpro_keap_get_tags_id_for_contact( $contact_id ) {
+		$tags = $this->pmpro_keap_get_tags_for_contact( $contact_id );
+		$tagIds = array();
+		foreach ( $tags[ 'tags' ] as $tag ) {
+			$tagIds[] = $tag[ 'tag' ][ 'id' ];
+		}
+		return $tagIds;
 	}
 
 	//getters for private attributes
@@ -326,6 +359,7 @@ class PMPro_Keap_Api_Wrapper {
 	}
 
 	/**
+	 * Format the contact request.
 	 *
 	 * @param WP_User $user The WordPress user.
 	 * @param array $data The additional data we would like to send to Keap.
@@ -335,6 +369,7 @@ class PMPro_Keap_Api_Wrapper {
 	private function pmpro_keap_format_contact_request( $user, $data = [] ) {
 		/**
 		 * Filter the contact request data before sending it to Keap.
+		 *
 		 * @param array $data The additional data we would like to send to Keap.
 		 * @param WP_User $user The WordPress user.
 		 */
