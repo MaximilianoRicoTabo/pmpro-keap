@@ -1,7 +1,7 @@
 
 # [Paid Memberships Pro - Keap Integration](https://www.paidmembershipspro.com/add-ons/keap-integration/) #
 
-[License](https://img.shields.io/badge/license-GPL--2.0%2B-red.svg?style=flat-square)
+![License](https://img.shields.io/badge/license-GPL--2.0%2B-red.svg?style=flat-square)
 
 ### Welcome to the Paid Memberships Pro - Keap GitHub Repository
 Subscribe and tag your Paid Memberships Pro members in Keap.
