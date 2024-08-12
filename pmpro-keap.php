@@ -56,31 +56,31 @@ function pmpro_keap_update_keap_contact( $user_id ) {
 	}
 
 	$user = get_userdata( $user_id );
-	//bail if the user id doesn't bring back a user
+	// bail if the user id doesn't bring back a user
 	if ( empty( $user ) ) {
 		return;
 	}
 
 	// Default values.
-	$contact_id = NULL;
-	$new_tags_id = array();
+	$contact_id       = null;
+	$new_tags_id      = array();
 	$existing_tags_id = array();
 
 	// Get the current levels for the user.
 	$current_levels = pmpro_getMembershipLevelsForUser( $user_id );
 
-	// Connect to Keap. 
-	$keap = PMPro_Keap_Api_Wrapper::get_instance();
+	// Connect to Keap.
+	$keap     = PMPro_Keap_Api_Wrapper::get_instance();
 	$response = $keap->pmpro_keap_get_contact_by_email( $user->user_email );
 
-	/// We probably need to make sure we can connect and not fatal error.
+	// We probably need to make sure we can connect and not fatal error.
 
 	// Add the customer to Keap if they don't exist, otherwise update their contact if they do exist.
-	if (  $response[ 'count' ] == 0 ) {
-		$response = $keap->pmpro_keap_add_contact( $user );
-		$contact_id = $response[ 'id' ];
+	if ( $response['count'] == 0 ) {
+		$response   = $keap->pmpro_keap_add_contact( $user );
+		$contact_id = $response['id'];
 	} else {
-		$contact_id = $response[ 'contacts' ][ 0 ][ 'id'];
+		$contact_id = $response['contacts'][0]['id'];
 		$keap->pmpro_keap_update_contact( $contact_id, $user );
 	}
 
@@ -89,8 +89,8 @@ function pmpro_keap_update_keap_contact( $user_id ) {
 
 	// Collect tags associated with current levels for comparison.
 	foreach ( $current_levels as $level ) {
-		if ( !empty( $options[ 'levels' ][ $level->id ] ) ) {
-			$new_tags_id = array_merge( $new_tags_id, $options[ 'levels' ][ $level->id ] );
+		if ( ! empty( $options['levels'][ $level->id ] ) ) {
+			$new_tags_id = array_merge( $new_tags_id, $options['levels'][ $level->id ] );
 		}
 	}
 
@@ -98,22 +98,22 @@ function pmpro_keap_update_keap_contact( $user_id ) {
 
 	// Fetch current tags from Keap for the contact (if needed, depending on the API design).
 	$existing_tags_id = $keap->pmpro_keap_get_tags_id_for_contact( $contact_id );
-	$tags_to_remove = array_diff( $existing_tags_id, $new_tags_id );
+	$tags_to_remove   = array_diff( $existing_tags_id, $new_tags_id );
 
 	// Remove the old tags from the contact
-	if ( !empty( $tags_to_remove ) ) {
+	if ( ! empty( $tags_to_remove ) ) {
 		$keap->pmpro_keap_remove_tags_from_contact( $contact_id, $tags_to_remove );
 	}
 
 	// Add the new tags to the contact
-	if ( !empty( $new_tags_id ) ) {
+	if ( ! empty( $new_tags_id ) ) {
 		$keap->pmpro_keap_assign_tags_to_contact( $contact_id, $new_tags_id );
 	}
 
 	// If no levels are present, remove all tags associated with levels but the user tags.
 	if ( empty( $current_levels ) ) {
 		$all_level_tags = array();
-		foreach ( $options[ 'levels' ] as $tags ) {
+		foreach ( $options['levels'] as $tags ) {
 			$all_level_tags = array_merge( $all_level_tags, $tags );
 		}
 
@@ -123,7 +123,7 @@ function pmpro_keap_update_keap_contact( $user_id ) {
 		// Remove only the level-specific tags, keeping the user-specific tags.
 		$tags_to_remove = array_diff( $all_level_tags, $options['users_tags'] );
 
-		if ( !empty( $all_level_tags ) ) {
+		if ( ! empty( $all_level_tags ) ) {
 			$keap->pmpro_keap_remove_tags_from_contact( $contact_id, array_unique( $tags_to_remove ) );
 		}
 	}
@@ -156,6 +156,7 @@ function pmpro_keap_pmpro_after_change_membership_level( $level_id, $user_id ) {
 
 /**
  * Update a contact in Keap when a user updates their profile.
+ *
  * @since 1.0
  */
 function pmpro_keap_profile_update( $user_id, $old_user_data ) {
@@ -165,6 +166,7 @@ function pmpro_keap_profile_update( $user_id, $old_user_data ) {
 
 /**
  * Function to add links to the plugin row meta.
+ *
  * @since 1.0
  */
 function pmpro_keap_plugin_row_meta( $links, $file ) {
