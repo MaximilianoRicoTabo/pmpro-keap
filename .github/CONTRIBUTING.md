@@ -1,4 +1,4 @@
-# Contribute to Paid Memberships Pro
+# Contribute to Paid Memberships Pro - Keap Integration
 
 Paid Memberships Pro is the "community solution" for membership sites on WordPress, and so contributions of all kinds are appreciated.
 
@@ -17,7 +17,7 @@ __Please Note:__ GitHub is for bug reports and contributions only. If you have a
 ## Making Changes
 
 * Fork the repository on GitHub
-* For bug fixes, checkout the DEV branch of the PMPro repository.
+* For bug fixes, checkout the DEV branch of the Paid Memberships Pro - Keap Integration repository.
 * For new features and enhancements, checkout the branch for the version the feature is milestoned for.
 * Make sure to pull in any "upstream" changes first.
 	* Use `git remote add upstream https://github.com/strangerstudios/pmpro-keap.git` to set the upstream repo
@@ -32,7 +32,7 @@ __Please Note:__ GitHub is for bug reports and contributions only. If you have a
 * You can update the readme.txt to include a comment about your fix or feature in the changelog, but if you do not the core team will do it for you.
 * When committing, reference your issue (if present) and include a note about the fix in the commit message.
 * Push the changes to your fork.
-* For bug fixes, submit a pull request to the DEV branch of the PMPro repository.
+* For bug fixes, submit a pull request to the DEV branch of the Paid Memberships Pro - Keap Integration repository.
 * For new features and enhancements, submit a pull request to the version the feature is milestoned for. This will usually be the version number following the current release unless the core dev team has milestoned the feature for a later release.
 * We will process all pull requests and make suggestions or changes as soon as possible. Feel free to ping us politely via email or social networks to take a look at your pulls.
 
