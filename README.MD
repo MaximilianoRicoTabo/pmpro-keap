@@ -31,5 +31,5 @@ There are various **ways to the help development** of Paid Memberships Pro - Kea
 
 Here are some ways for **non-developers to contribute** to Paid Memberships Pro - Keap:
 
-1. Translate Paid Memberships Pro - ConvertKit into your own [language](https://www.paidmembershipspro.com/paid-memberships-pro-in-your-language/).
+1. Translate Paid Memberships Pro - Keap Integration into your own [language](https://www.paidmembershipspro.com/paid-memberships-pro-in-your-language/).
 2. [Purchase a plus membership](https://paidmembershipspro.com/pricing) to help fund ongoing development and bug fixes.
