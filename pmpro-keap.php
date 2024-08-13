@@ -24,7 +24,7 @@ require_once PMPRO_KEAP_DIR . '/classes/class-pmpro-keap-api-wrapper.php';
  */
 function pmpro_keap_init() {
 	add_action( 'user_register', 'pmpro_keap_user_register', 10, 1 );
-	add_action( 'pmpro_after_change_membership_level', 'pmpro_keap_pmpro_after_change_membership_level', 10, 2 );
+	add_action( 'pmpro_after_all_membership_level_changes', 'pmpro_keap_pmpro_after_change_membership_level', 10, 1 );
 	add_action( 'profile_update', 'pmpro_keap_profile_update', 10, 2 );
 }
 add_action( 'init', 'pmpro_keap_init' );
@@ -147,8 +147,14 @@ function pmpro_keap_user_register( $user_id ) {
  * @return void
  * @since 1.0
  */
-function pmpro_keap_pmpro_after_change_membership_level( $level_id, $user_id ) {
-	pmpro_keap_update_keap_contact( $user_id );
+function pmpro_keap_pmpro_after_change_membership_level( $old_user_levels ) {
+	// Get unique user IDs from the old user levels.
+	$user_ids = array_unique( array_column( $old_user_levels, 'user_id' ) );
+
+	// Update Keap contact for each user ID.
+	foreach ( $user_ids as $user_id ) {
+		pmpro_keap_update_keap_contact( $user_id );
+	}
 }
 
 /**
