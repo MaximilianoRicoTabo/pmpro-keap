@@ -41,8 +41,7 @@ function pmpro_keap_admin_init() {
 	if ( isset( $_GET['action'] ) && $_GET['action'] == 'authorize_keap' &&
 		wp_verify_nonce( sanitize_text_field( $_GET['pmpro_keap_authorize_nonce'] ), 'pmpro_keap_authorize_nonce' ) ) {
 		$keap    = PMPro_Keap_Api_Wrapper::get_instance();
-		$authUrl = $keap->pmpro_keap_get_authorization_url();
-		header( "Location: $authUrl" );
+		wp_redirect( $keap->pmpro_keap_get_authorization_url() );
 		exit;
 	}
 
