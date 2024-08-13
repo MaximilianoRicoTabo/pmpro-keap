@@ -149,7 +149,7 @@ function pmpro_keap_user_register( $user_id ) {
  */
 function pmpro_keap_pmpro_after_change_membership_level( $old_user_levels ) {
 	// Get unique user IDs from the old user levels.
-	$user_ids = array_unique( array_column( $old_user_levels, 'user_id' ) );
+	$user_ids = array_unique( array_keys( $old_user_levels ) );
 
 	// Update Keap contact for each user ID.
 	foreach ( $user_ids as $user_id ) {
