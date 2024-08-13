@@ -231,7 +231,7 @@ class PMPro_Keap_Api_Wrapper {
 	 * @return array The response.
 	 * @since 1.0
 	 */
-	public function pmpro_keap_assign_tags_to_contact( $contact_id, $tagIds ) {
+	private function pmpro_keap_assign_tags_to_contact( $contact_id, $tagIds ) {
 		$data = array(
 			'tagIds' => $tagIds,
 		);
