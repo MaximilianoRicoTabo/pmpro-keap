@@ -106,42 +106,36 @@ function pmpro_keap_secret_key() {
 		<?php
 }
 
-	/**
-	 * Add User Tags for "All Users" Settings section for the PMPro Keap options page
-	 *
-	 * @return void
-	 */
+
+
 function pmpro_keap_users_tags() {
 	$options  = get_option( 'pmpro_keap_options' );
 	$all_tags = pmpro_keap_get_tags();
 
-	// Figure out if array, single value or null.
+	// Determine the selected tags.
 	if ( isset( $options['users_tags'] ) && is_array( $options['users_tags'] ) ) {
 		$selected_tags = $options['users_tags'];
-	} elseif ( isset( $options['users_tags'] ) ) {
-		// probably saved as comma separated string
-		$selected_tags = str_replace( ' ', '', $options['users_tags'] );
-		$selected_tags = explode( ',', $selected_tags );
-	} else {
-		$selected_tags = array();
 	}
 
-	// Get tags.
+	// Display checkboxes.
 	if ( empty( $all_tags ) ) {
 		esc_html_e( 'No tags found.', 'pmpro-keap' );
 	} else {
+		//if all_tags size is greater than 5, add scrollable class to div
 		?>
-			<select multiple='yes' name='pmpro_keap_options[users_tags][]'>
-		<?php foreach ( $all_tags as $tag_id => $tag ) : ?>
-				<option value='<?php echo esc_attr( $tag['id'] ); ?>' 
-										  <?php
-											if ( in_array( $tag['id'], $selected_tags ) ) :
-												?>
-					selected='selected'<?php endif; ?>>
-					<?php echo esc_html( $tag['name'] ); ?>
-				</option>
-			<?php endforeach; ?>
-			</select>
+		<div <?php if ( count( $all_tags ) > 5 ) { ?>class="pmpro-keap-checkbox-list-scrollable" <?php } ?>>
+		<?php
+		foreach ( $all_tags as $tag_id => $tag ) {
+			$checked = in_array( $tag['id'], $selected_tags ) ? 'checked' : '';
+			?>
+			<label class="pmpro-keap-checkbox-label">
+				<input type="checkbox" name="pmpro_keap_options[users_tags][]" value="<?php echo esc_attr( $tag['id'] ); ?>" <?php echo $checked; ?> />
+				<?php echo esc_html( $tag['name'] ); ?>
+			</label><br />
+			<?php
+		}
+		?>
+		</div>
 		<?php
 	}
 }
@@ -152,69 +146,68 @@ function pmpro_keap_users_tags() {
 	 * @return void
 	 * @since 1.0
 	 */
-function pmpro_keap_section_levels() {
-	?>
-		<table class="<?php echo esc_attr( 'form-table' ); ?>">
-		<?php
-		$levels   = pmpro_getAllLevels( true, true );
-		$all_tags = pmpro_keap_get_tags();
-		if ( empty( $levels ) ) {
-			?>
-			<p><?php esc_html_e( 'No membership levels found.', 'pmpro-keap' ); ?></p>
+	function pmpro_keap_section_levels() {
+		?>
+			<table class="<?php echo esc_attr( 'form-table' ); ?>">
 			<?php
-			return;
-		} else {
-			?>
-			<p><?php esc_html_e( 'For each level below, choose the tags which should be added to the contact when a new user registers or switches levels.', 'pmpro-keap' ); ?></p>
-			<?php
-		}
+			$levels   = pmpro_getAllLevels( true, true );
+			$all_tags = pmpro_keap_get_tags();
 
-		foreach ( $levels as $level ) {
-			$tags = pmpro_keap_get_tags_for_level( $level->id );
+			if ( empty( $levels ) ) {
+				?>
+				<p><?php esc_html_e( 'No membership levels found.', 'pmpro-keap' ); ?></p>
+				<?php
+				return;
+			} else {
+				?>
+				<p><?php esc_html_e( 'For each level below, choose the tags which should be added to the contact when a new user registers or switches levels.', 'pmpro-keap' ); ?></p>
+				<?php
+			}
 
-			if ( empty( $tags ) ) {
-				$tags = array();
+			foreach ( $levels as $level ) {
+				$tags = pmpro_keap_get_tags_for_level( $level->id );
+
+				if ( empty( $tags ) ) {
+					$tags = array();
+				}
+				?>
+						<tr>
+							<th>
+								<?php echo esc_html( $level->name ); ?>
+							</th>
+							<td>
+								<?php
+								if ( empty( $all_tags ) ) {
+									?>
+									<p><?php esc_html_e( 'No tags found.', 'pmpro-keap' ); ?></p>
+									<?php
+								} else {
+									?>
+									<div <?php if ( count( $all_tags ) > 5 ) { ?>class="pmpro-keap-checkbox-list-scrollable" <?php } ?>>
+									<?php
+										foreach ( $all_tags as $tag ) {
+											$checked = in_array( $tag['id'], $tags ) ? 'checked' : '';
+											?>
+											<label class="pmpro-keap-checkbox-label">
+												<input type="checkbox" name="pmpro_keap_options[levels][<?php echo esc_attr( $level->id ); ?>][]" value="<?php echo esc_attr( $tag['id'] ); ?>" <?php echo $checked; ?> />
+												<?php echo esc_html( $tag['name'] ); ?>
+											</label><br />
+											<?php
+										}
+									?>
+									</div>
+									<?php
+								}
+								?>
+							</td>
+						</tr>
+				<?php
 			}
 			?>
-					<tr>
-						<th>
-					<?php echo esc_html( $level->name ); ?>
-						</th>
-						<td>
-					<?php
-					if ( empty( $all_tags ) ) {
-						?>
-									<p><?php esc_html_e( 'No tags found.', 'pmpro-keap' ); ?></p>
-								<?php
-					} else {
-						?>
-							<select name="pmpro_keap_options[levels][<?php echo esc_attr( $level->id ); ?>][]" multiple="yes">
-							<?php
-							foreach ( $all_tags as $tag ) {
-								?>
-										<option value="<?php echo esc_attr( $tag['id'] ); ?>" 
-									<?php if ( in_array( $tag['id'], $tags ) ) { ?>
-													selected="selected"
-												<?php } ?>>
-									<?php echo esc_html( $tag ['name'] ); ?>
-										</option>
-									<?php
-							}
-							?>
-							</select>
-							<?php
-					}
-					?>
-						</td>
-					</tr>
-
-				<?php
-		}
-		?>
-		</tbody>
-		</table>
+			</table>
 		<?php
-}
+	}
+
 
 	/**
 	 * Get the tags for a specific level
