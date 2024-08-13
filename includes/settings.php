@@ -54,7 +54,7 @@ function pmpro_keap_admin_init() {
 		if ( isset( $token_response['access_token'] ) ) {
 			// sanitize data and save options
 			update_option( 'pmpro_keap_access_token', sanitize_text_field( $token_response['access_token'] ) );
-			update_option( 'pmpro_keap_refresh_token', sanitize_text_field( $tokenResponse['refresh_token'] ) );
+			update_option( 'pmpro_keap_refresh_token', sanitize_text_field( $token_response['refresh_token'] ) );
 
 		} else {
 			// Handle token request error
