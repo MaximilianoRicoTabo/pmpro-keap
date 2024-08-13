@@ -20,7 +20,7 @@ class PMPro_Keap_Api_Wrapper {
 	/**
 	 * Constructor
 	 */
-	public function __construct() {
+	private function __construct() {
 		$options = get_option( 'pmpro_keap_options' );
 		if ( ! empty( $options ) ) {
 			$this->clientId     = $options['api_key'];
@@ -231,7 +231,7 @@ class PMPro_Keap_Api_Wrapper {
 	 * @return array The response.
 	 * @since 1.0
 	 */
-	private function pmpro_keap_assign_tags_to_contact( $contact_id, $tagIds ) {
+	public function pmpro_keap_assign_tags_to_contact( $contact_id, $tagIds ) {
 		$data = array(
 			'tagIds' => $tagIds,
 		);
