@@ -38,7 +38,8 @@ function pmpro_keap_admin_init() {
 	add_settings_field( 'pmpro_keap_users_tags', __( 'All Users Tags', 'pmpro-keap' ), 'pmpro_keap_users_tags', 'pmpro_keap_options', 'pmpro_keap_section_general' );
 	add_settings_section( 'pmpro_keap_section_levels', __( 'Membership Level Tags', 'pmpro-keap' ), 'pmpro_keap_section_levels', 'pmpro_keap_options' );
 
-	if ( isset( $_GET['action'] ) && $_GET['action'] == 'authorize_keap' && wp_verify_nonce( $_GET['pmpro_keap_authorize_nonce'], 'pmpro_keap_authorize_nonce' ) ) {
+	if ( isset( $_GET['action'] ) && $_GET['action'] == 'authorize_keap' &&
+		wp_verify_nonce( sanitize_text_field( $_GET['pmpro_keap_authorize_nonce'] ), 'pmpro_keap_authorize_nonce' ) ) {
 		$keap    = PMPro_Keap_Api_Wrapper::get_instance();
 		$authUrl = $keap->pmpro_keap_get_authorization_url();
 		header( "Location: $authUrl" );
