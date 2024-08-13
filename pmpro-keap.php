@@ -98,7 +98,22 @@ function pmpro_keap_update_keap_contact( $user_id ) {
 
 	// Fetch current tags from Keap for the contact (if needed, depending on the API design).
 	$existing_tags_id = $keap->pmpro_keap_get_tags_id_for_contact( $contact_id );
-	$tags_to_remove   = array_diff( $existing_tags_id, $new_tags_id );
+
+	// Collect all tags associated with all membership levels.
+	$level_related_tags = array();
+	foreach ( $options['levels'] as $level_tags ) {
+		$level_related_tags = array_merge( $level_related_tags, $level_tags );
+	}
+
+	$level_related_tags = array_unique( $level_related_tags );
+
+
+	// Determine which tags are not related to any level.
+	$non_level_tags = array_diff( $existing_tags_id, $level_related_tags );
+
+	// Determine which tags should be removed (tags not in new tags but exist in current tags).
+	$tags_to_remove = array_diff( $existing_tags_id, $new_tags_id, $non_level_tags );
+
 
 	// Remove the old tags from the contact
 	if ( ! empty( $tags_to_remove ) ) {
