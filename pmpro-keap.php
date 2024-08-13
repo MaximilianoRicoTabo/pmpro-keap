@@ -110,24 +110,6 @@ function pmpro_keap_update_keap_contact( $user_id ) {
 		$keap->pmpro_keap_assign_tags_to_contact( $contact_id, $new_tags_id );
 	}
 
-	// If no levels are present, remove all tags associated with levels but the user tags.
-	if ( empty( $current_levels ) ) {
-		$all_level_tags = array();
-		foreach ( $options['levels'] as $tags ) {
-			$all_level_tags = array_merge( $all_level_tags, $tags );
-		}
-
-		// Ensure the tags are unique.
-		$all_level_tags = array_unique( $all_level_tags );
-
-		// Remove only the level-specific tags, keeping the user-specific tags.
-		$tags_to_remove = array_diff( $all_level_tags, $options['users_tags'] );
-
-		if ( ! empty( $all_level_tags ) ) {
-			$keap->pmpro_keap_remove_tags_from_contact( $contact_id, array_unique( $tags_to_remove ) );
-		}
-	}
-
 	return $contact_id;
 }
 
