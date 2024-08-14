@@ -91,7 +91,6 @@ function pmpro_keap_api_key() {
 	$api_key = ! empty( $options['api_key'] ) ? $options['api_key'] : '';
 	?>
 			<input id='pmpro_keap_api_key' name='pmpro_keap_options[api_key]' size='80' type='password' autocomplete='off' value='<?php echo esc_attr( $api_key ); ?>' />
-			<p class="description"><?php esc_html_e( 'You can find your API key in the Keap developers portal.', 'pmpro-keap' ); ?></p>
 		<?php
 }
 
@@ -106,7 +105,15 @@ function pmpro_keap_secret_key() {
 	$api_secret = ! empty( $options['api_secret'] ) ? $options['api_secret'] : '';
 	?>
 			<input id='pmpro_keap_api_secret' name='pmpro_keap_options[api_secret]' size='80' type='password' value='<?php echo esc_attr( $api_secret ); ?>' />
-			<p class="description"><?php esc_html_e( 'You can find your API secret in the Keap developers portal.', 'pmpro-keap' ); ?></p>
+			<p class="description">
+				<?php
+					printf(
+						esc_html__( 'You can look for API key and secret in the %sKeap developers portal%s.', 'pmpro-keap' ),
+						'<a href="https://developer.infusionsoft.com/" target="_blank">',
+						'</a>'
+					);
+				?>
+			</p>
 		<?php
 }
 
