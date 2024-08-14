@@ -41,7 +41,7 @@ function pmpro_keap_admin_init() {
 	add_settings_section( 'pmpro_keap_section_levels', __( 'Membership Level Tags', 'pmpro-keap' ), 'pmpro_keap_section_levels', 'pmpro_keap_options' );
 
 	if ( isset( $_GET['action'] ) && $_GET['action'] == 'authorize_keap' &&
-		wp_verify_nonce( sanitize_text_field( $_GET['pmpro_keap_authorize_nonce'] ), 'pmpro_keap_authorize_nonce' ) ) {
+		wp_verify_nonce( sanitize_key( $_GET['pmpro_keap_authorize_nonce'] ), 'pmpro_keap_authorize_nonce' ) ) {
 		$keap    = PMPro_Keap_Api_Wrapper::get_instance();
 		wp_redirect( $keap->pmpro_keap_get_authorization_url() );
 		exit;
