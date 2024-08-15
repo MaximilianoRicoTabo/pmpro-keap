@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-08-12T08:50:24+00:00\n"
+"POT-Creation-Date: 2024-08-15T14:52:15+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: pmpro-keap\n"
@@ -56,78 +56,106 @@ msgid "Save Settings"
 msgstr ""
 
 #: includes/settings.php:34
+#: includes/settings.php:36
 msgid "Add one or more Keap tags when users sign up for your site."
 msgstr ""
 
 #: includes/settings.php:35
+#: includes/settings.php:37
 msgid "Keap Authorized"
 msgstr ""
 
 #: includes/settings.php:36
+#: includes/settings.php:38
 msgid "Keap API Key"
 msgstr ""
 
 #: includes/settings.php:37
+#: includes/settings.php:39
 msgid "Keap Secret Key"
 msgstr ""
 
 #: includes/settings.php:38
+#: includes/settings.php:40
 msgid "All Users Tags"
 msgstr ""
 
 #: includes/settings.php:39
+#: includes/settings.php:41
 msgid "Membership Level Tags"
 msgstr ""
 
 #: includes/settings.php:61
+#: includes/settings.php:63
 msgid "Error requesting access token: %s"
 msgstr ""
 
 #: includes/settings.php:131
 #: includes/settings.php:187
+#: includes/settings.php:134
+#: includes/settings.php:194
 msgid "No tags found."
 msgstr ""
 
 #: includes/settings.php:163
+#: includes/settings.php:170
 msgid "No membership levels found."
 msgstr ""
 
 #: includes/settings.php:168
+#: includes/settings.php:175
 msgid "For each level below, choose the tags which should be added to the contact when a new user registers or switches levels."
 msgstr ""
 
 #: includes/settings.php:253
+#: includes/settings.php:258
 msgid "Authorized"
 msgstr ""
 
 #: includes/settings.php:260
+#: includes/settings.php:265
 msgid "Not Authorized"
 msgstr ""
 
 #: includes/settings.php:267
+#: includes/settings.php:272
 msgid "Authorize with Keap"
 msgstr ""
 
 #: includes/settings.php:272
+#: includes/settings.php:277
 msgid "Please enter your Keap API key and API secret to continue."
 msgstr ""
 
 #: pmpro-keap.php:175
+#: pmpro-keap.php:168
 msgid "View Documentation"
 msgstr ""
 
 #: pmpro-keap.php:175
+#: pmpro-keap.php:168
 msgid "Docs"
 msgstr ""
 
 #: pmpro-keap.php:176
+#: pmpro-keap.php:169
 msgid "Visit Customer Support Forum"
 msgstr ""
 
 #: pmpro-keap.php:176
+#: pmpro-keap.php:169
 msgid "Support"
 msgstr ""
 
 #: pmpro-keap.php:194
+#: pmpro-keap.php:187
 msgid "Settings"
+msgstr ""
+
+#: includes/settings.php:110
+msgid "You may obtain your Keap API and Secret key from the %s."
+msgstr ""
+
+#: includes/settings.php:110
+msgid "Keap Developer Portal"
 msgstr ""
