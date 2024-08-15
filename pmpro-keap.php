@@ -18,18 +18,6 @@ require_once PMPRO_KEAP_DIR . '/includes/settings.php';
 require_once PMPRO_KEAP_DIR . '/classes/class-pmpro-keap-api-wrapper.php';
 
 /**
- * Initialize the plugin.
- *
- * @since 1.0
- */
-function pmpro_keap_init() {
-	add_action( 'user_register', 'pmpro_keap_user_register', 10, 1 );
-	add_action( 'pmpro_after_all_membership_level_changes', 'pmpro_keap_pmpro_after_change_membership_level', 10, 1 );
-	add_action( 'profile_update', 'pmpro_keap_profile_update', 10, 2 );
-}
-add_action( 'init', 'pmpro_keap_init' );
-
-/**
  * Enqueue the CSS assets for the PMPro Keap settings page.
  *
  * @since 1.0
@@ -138,6 +126,7 @@ function pmpro_keap_update_keap_contact( $user_id ) {
 function pmpro_keap_user_register( $user_id ) {
 	pmpro_keap_update_keap_contact( $user_id );
 }
+add_action( 'user_register', 'pmpro_keap_user_register', 10, 1 );
 
 /**
  * Subscribe new members (PMPro) when they register
@@ -156,6 +145,7 @@ function pmpro_keap_pmpro_after_change_membership_level( $old_user_levels ) {
 		pmpro_keap_update_keap_contact( $user_id );
 	}
 }
+add_action( 'pmpro_after_all_membership_level_changes', 'pmpro_keap_pmpro_after_change_membership_level', 10, 1 );
 
 /**
  * Update a contact in Keap when a user updates their profile.
@@ -165,7 +155,7 @@ function pmpro_keap_pmpro_after_change_membership_level( $old_user_levels ) {
 function pmpro_keap_profile_update( $user_id, $old_user_data ) {
 	pmpro_keap_update_keap_contact( $user_id );
 }
-
+add_action( 'profile_update', 'pmpro_keap_profile_update', 10, 2 );
 
 /**
  * Function to add links to the plugin row meta.
