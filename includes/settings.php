@@ -107,11 +107,7 @@ function pmpro_keap_secret_key() {
 			<input id='pmpro_keap_api_secret' name='pmpro_keap_options[api_secret]' size='80' type='password' value='<?php echo esc_attr( $api_secret ); ?>' />
 			<p class="description">
 				<?php
-					printf(
-						esc_html__( 'You can look for API key and secret in the %sKeap developers portal%s.', 'pmpro-keap' ),
-						'<a href="https://developer.infusionsoft.com/" target="_blank">',
-						'</a>'
-					);
+					printf( esc_html__( 'You may obtain your Keap API and Secret key from the %s.', 'pmpro-keap' ), '<a href="' . esc_url( 'https://keys.developer.keap.com/' ) .  '" target="_blank">' . esc_html__( 'Keap Developer Portal', 'pmpro-keap' ) . '</a>' );
 				?>
 			</p>
 		<?php
