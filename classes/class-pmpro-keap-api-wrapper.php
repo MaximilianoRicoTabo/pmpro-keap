@@ -20,7 +20,7 @@ class PMPro_Keap_Api_Wrapper {
 	/**
 	 * Constructor
 	 */
-	public function __construct() {
+	private function __construct() {
 		$options = get_option( 'pmpro_keap_options' );
 		if ( ! empty( $options ) ) {
 			$this->clientId     = $options['api_key'];

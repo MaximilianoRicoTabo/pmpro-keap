@@ -24,7 +24,7 @@ require_once PMPRO_KEAP_DIR . '/classes/class-pmpro-keap-api-wrapper.php';
  */
 function pmpro_keap_init() {
 	add_action( 'user_register', 'pmpro_keap_user_register', 10, 1 );
-	add_action( 'pmpro_after_change_membership_level', 'pmpro_keap_pmpro_after_change_membership_level', 10, 2 );
+	add_action( 'pmpro_after_all_membership_level_changes', 'pmpro_keap_pmpro_after_change_membership_level', 10, 1 );
 	add_action( 'profile_update', 'pmpro_keap_profile_update', 10, 2 );
 }
 add_action( 'init', 'pmpro_keap_init' );
@@ -98,7 +98,22 @@ function pmpro_keap_update_keap_contact( $user_id ) {
 
 	// Fetch current tags from Keap for the contact (if needed, depending on the API design).
 	$existing_tags_id = $keap->pmpro_keap_get_tags_id_for_contact( $contact_id );
-	$tags_to_remove   = array_diff( $existing_tags_id, $new_tags_id );
+
+	// Collect all tags associated with all membership levels.
+	$level_related_tags = array();
+	foreach ( $options['levels'] as $level_tags ) {
+		$level_related_tags = array_merge( $level_related_tags, $level_tags );
+	}
+
+	$level_related_tags = array_unique( $level_related_tags );
+
+
+	// Determine which tags are not related to any level.
+	$non_level_tags = array_diff( $existing_tags_id, $level_related_tags );
+
+	// Determine which tags should be removed (tags not in new tags but exist in current tags).
+	$tags_to_remove = array_diff( $existing_tags_id, $new_tags_id, $non_level_tags );
+
 
 	// Remove the old tags from the contact
 	if ( ! empty( $tags_to_remove ) ) {
@@ -108,24 +123,6 @@ function pmpro_keap_update_keap_contact( $user_id ) {
 	// Add the new tags to the contact
 	if ( ! empty( $new_tags_id ) ) {
 		$keap->pmpro_keap_assign_tags_to_contact( $contact_id, $new_tags_id );
-	}
-
-	// If no levels are present, remove all tags associated with levels but the user tags.
-	if ( empty( $current_levels ) ) {
-		$all_level_tags = array();
-		foreach ( $options['levels'] as $tags ) {
-			$all_level_tags = array_merge( $all_level_tags, $tags );
-		}
-
-		// Ensure the tags are unique.
-		$all_level_tags = array_unique( $all_level_tags );
-
-		// Remove only the level-specific tags, keeping the user-specific tags.
-		$tags_to_remove = array_diff( $all_level_tags, $options['users_tags'] );
-
-		if ( ! empty( $all_level_tags ) ) {
-			$keap->pmpro_keap_remove_tags_from_contact( $contact_id, array_unique( $tags_to_remove ) );
-		}
 	}
 
 	return $contact_id;
@@ -150,8 +147,14 @@ function pmpro_keap_user_register( $user_id ) {
  * @return void
  * @since 1.0
  */
-function pmpro_keap_pmpro_after_change_membership_level( $level_id, $user_id ) {
-	pmpro_keap_update_keap_contact( $user_id );
+function pmpro_keap_pmpro_after_change_membership_level( $old_user_levels ) {
+	// Get unique user IDs from the old user levels.
+	$user_ids = array_unique( array_keys( $old_user_levels ) );
+
+	// Update Keap contact for each user ID.
+	foreach ( $user_ids as $user_id ) {
+		pmpro_keap_update_keap_contact( $user_id );
+	}
 }
 
 /**
