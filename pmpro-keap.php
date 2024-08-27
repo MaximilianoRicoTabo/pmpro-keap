@@ -1,9 +1,9 @@
 <?php
 /**
  * Plugin Name: Paid Memberships Pro - Keap Add On
- * Plugin URI: https://www.paidmembershipspro.com/add-ons/pmpro-keap-integration/
+ * Plugin URI: https://www.paidmembershipspro.com/add-ons/keap-integration/
  * Description: Sync your WordPress users and members with Keap contacts.
- * Version: 1.0
+ * Version: 1.0.1
  * Author: Paid Memberships Pro
  * Author URI: https://www.paidmembershipspro.com/
  * License: GPL-2.0+
@@ -12,7 +12,7 @@
  */
 
 define( 'PMPRO_KEAP_DIR', dirname( __FILE__ ) );
-define( 'PMPRO_KEAP_VERSION', '1.0' );
+define( 'PMPRO_KEAP_VERSION', '1.0.1' );
 
 require_once PMPRO_KEAP_DIR . '/includes/settings.php';
 require_once PMPRO_KEAP_DIR . '/classes/class-pmpro-keap-api-wrapper.php';
