@@ -129,6 +129,11 @@ function pmpro_keap_users_tags() {
 		$selected_tags = $options['users_tags'];
 	}
 
+	// If no tags are selected, make it an array.
+	if ( empty( $selected_tags ) ) {
+		$selected_tags = array();
+	}
+
 	// Display checkboxes.
 	if ( empty( $all_tags ) ) {
 		esc_html_e( 'No tags found.', 'pmpro-keap' );
