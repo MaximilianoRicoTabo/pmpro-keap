@@ -1,3 +1,4 @@
+![](pmpro-keap-banner.png)
 
 # [Paid Memberships Pro - Keap Integration](https://www.paidmembershipspro.com/add-ons/keap-integration/) #
 
