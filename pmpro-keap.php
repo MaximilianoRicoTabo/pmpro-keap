@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name: Paid Memberships Pro - Keap Add On
+ * Plugin Name: Paid Memberships Pro - Keap Integration
  * Plugin URI: https://www.paidmembershipspro.com/add-ons/keap-integration/
- * Description: Sync your WordPress users and members with Keap contacts.
+ * Description: Create and tag leads and customers in Keap based on membership level.
  * Version: 1.0.1
  * Author: Paid Memberships Pro
  * Author URI: https://www.paidmembershipspro.com/
@@ -16,19 +16,6 @@ define( 'PMPRO_KEAP_VERSION', '1.0.1' );
 
 require_once PMPRO_KEAP_DIR . '/includes/settings.php';
 require_once PMPRO_KEAP_DIR . '/classes/class-pmpro-keap-api-wrapper.php';
-
-/**
- * Enqueue the CSS assets for the PMPro Keap settings page.
- *
- * @since 1.0
- */
-function pmpro_keap_enqueue_css_assets( $hook ) {
-	// Only include on the PMPro Keap settings page
-	if ( ! empty( $_REQUEST['page'] ) && $_REQUEST['page'] == 'pmpro-keap' ) {
-		wp_enqueue_style( 'pmpro_keap', plugins_url( 'css/admin.css', __FILE__ ), '', PMPRO_KEAP_VERSION, 'screen' );
-	}
-}
-add_action( 'admin_enqueue_scripts', 'pmpro_keap_enqueue_css_assets' );
 
 /**
  * Create or Update a Contact in keap given an email address. May include tags and additional fields.
@@ -165,7 +152,7 @@ add_action( 'profile_update', 'pmpro_keap_profile_update', 10, 2 );
 function pmpro_keap_plugin_row_meta( $links, $file ) {
 	if ( strpos( $file, 'pmpro-keap.php' ) !== false ) {
 		$new_links = array(
-			'<a href="' . esc_url( 'https://www.paidmembershipspro.com/add-ons/pmpro-keap-integration/' ) . '" title="' . esc_attr__( 'View Documentation', 'pmpro-keap' ) . '">' . esc_html__( 'Docs', 'pmpro-keap' ) . '</a>',
+			'<a href="' . esc_url( 'https://www.paidmembershipspro.com/add-ons/keap-integration/' ) . '" title="' . esc_attr__( 'View Documentation', 'pmpro-keap' ) . '">' . esc_html__( 'Docs', 'pmpro-keap' ) . '</a>',
 			'<a href="' . esc_url( 'https://www.paidmembershipspro.com/support/' ) . '" title="' . esc_attr__( 'Visit Customer Support Forum', 'pmpro-keap' ) . '">' . esc_html__( 'Support', 'pmpro-keap' ) . '</a>',
 		);
 		$links     = array_merge( $links, $new_links );

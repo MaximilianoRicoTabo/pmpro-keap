@@ -75,9 +75,10 @@ if ( ! empty( $_REQUEST['savesettings'] ) ) {
 	$msgt = __( 'Settings saved successfully.', 'pmpro-keap' );
 
 }
-	// Include admin header
-	require_once PMPRO_DIR . '/adminpages/admin_header.php';
-	$options = get_option( 'pmpro_keap_options' );
+
+// Include admin header
+require_once PMPRO_DIR . '/adminpages/admin_header.php';
+$options = get_option( 'pmpro_keap_options' );
 
 if ( ! empty( $options['api_key'] ) ) {
 	$api_key = $options['api_key'];
@@ -87,24 +88,18 @@ if ( ! empty( $options['api_secret'] ) ) {
 	$api_secret = $options['api_secret'];
 }
 
-		// Retrieve stored access token
-		$accessToken = get_option( 'pmpro_keap_access_token' );
-
+// Retrieve stored access token
+$accessToken = get_option( 'pmpro_keap_access_token' );
 ?>
-		 <div class="wrap">
-			 <div id="icon-options-general" class="icon32"><br></div>
-			<h1><?php esc_html_e( 'Keap Integration Options and Settings', 'pmpro-keap' ); ?></h1>
-
-		<form action="" method="post" enctype="multipart/form-data" >
-		<?php
-				wp_nonce_field( 'savesettings', 'pmpro_keap_nonce' );
-				do_settings_sections( 'pmpro_keap_options' );
-		?>
-			<p class="submit topborder">
-					 <input name="savesettings" type="submit" class="button-primary" value="<?php esc_html_e( 'Save Settings', 'pmpro-keap' ); ?>" />
-				 </p>
-			 </form>
-		 </div>
-
-		<?php
-		require_once PMPRO_DIR . '/adminpages/admin_footer.php';
+<h1><?php esc_html_e( 'Keap Integration Settings', 'pmpro-keap' ); ?></h1>
+<form action="" method="post" enctype="multipart/form-data" >
+	<?php
+		wp_nonce_field( 'savesettings', 'pmpro_keap_nonce' );
+		do_settings_sections( 'pmpro_keap_options' );
+	?>
+	<p class="submit">
+		<input name="savesettings" type="submit" class="button-primary" value="<?php esc_html_e( 'Save Settings', 'pmpro-keap' ); ?>" />
+	</p>
+</form>
+<?php
+require_once PMPRO_DIR . '/adminpages/admin_footer.php';
