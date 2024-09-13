@@ -3,7 +3,7 @@
  * Plugin Name: Paid Memberships Pro - Keap Integration
  * Plugin URI: https://www.paidmembershipspro.com/add-ons/keap-integration/
  * Description: Create and tag leads and customers in Keap based on membership level.
- * Version: 1.0.1
+ * Version: 1.0.2
  * Author: Paid Memberships Pro
  * Author URI: https://www.paidmembershipspro.com/
  * License: GPL-2.0+
@@ -12,7 +12,7 @@
  */
 
 define( 'PMPRO_KEAP_DIR', dirname( __FILE__ ) );
-define( 'PMPRO_KEAP_VERSION', '1.0.1' );
+define( 'PMPRO_KEAP_VERSION', '1.0.2' );
 
 require_once PMPRO_KEAP_DIR . '/includes/settings.php';
 require_once PMPRO_KEAP_DIR . '/classes/class-pmpro-keap-api-wrapper.php';
@@ -22,7 +22,7 @@ require_once PMPRO_KEAP_DIR . '/classes/class-pmpro-keap-api-wrapper.php';
  *
  * @param int $user_id The WP user id.
  * @return int The contact ID in keap.
- * @since TBD
+ * @since 1.0
  */
 function pmpro_keap_update_keap_contact( $user_id ) {
 	// Bail if pmpro_getMembershipLevelsForUser doesn't exist
