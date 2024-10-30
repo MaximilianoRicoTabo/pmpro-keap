@@ -2,8 +2,8 @@
 Contributors: strangerstudios
 Tags: paid memberships pro, keap, crm
 Requires at least: 5.0
-Tested up to: 6.6
-Stable tag: 1.0.2
+Tested up to: 6.6.2
+Stable tag: 1.0.3
 
 Subscribe and tag your Paid Memberships Pro members in Keap.
 
@@ -28,6 +28,10 @@ This plugin integrates Paid Memberships Pro with Keap (formerly Infusionsoft) CR
 1. Once authorized, you may select the tags to apply to users based on their membership level.
 
 View full documentation at: https://www.paidmembershipspro.com/add-ons/keap-integration/
+
+== Changelog ==
+= 1.0.3 - 2024-10-31 =
+* BUG FIX: Check for null before accessing users_tag element in the options array.
 
 == Changelog ==
 = 1.0.2 - 2024-09-13 =
