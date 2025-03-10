@@ -287,7 +287,7 @@ class PMPro_Keap_Api_Wrapper {
 	 * Check if the Keap API is authorized.
 	 *
 	 * @return bool True if authorized, false otherwise.
-	 * @since TBD
+	 * @since 1.0.4
 	 */
 	public function is_keap_api_authorized() {
 		// Get the stored access token and refresh token.
