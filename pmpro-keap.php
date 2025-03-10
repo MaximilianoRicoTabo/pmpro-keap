@@ -48,8 +48,6 @@ function pmpro_keap_update_keap_contact( $user_id ) {
 	$keap     = PMPro_Keap_Api_Wrapper::get_instance();
 	$response = $keap->pmpro_keap_get_contact_by_email( $user->user_email );
 
-	// We probably need to make sure we can connect and not fatal error.
-
 	// Add the customer to Keap if they don't exist, otherwise update their contact if they do exist.
 	if ( $response['count'] == 0 ) {
 		$response   = $keap->pmpro_keap_add_contact( $user );
@@ -114,6 +112,11 @@ function pmpro_keap_update_keap_contact( $user_id ) {
  * @since 1.0
  */
 function pmpro_keap_user_register( $user_id ) {
+	$keap = PMPro_Keap_Api_Wrapper::get_instance();
+	//Bail if Keap is not authorized. We can't run the update without it.
+	if ( ! $keap->is_keap_api_authorized() ) {
+		return;
+	}
 	pmpro_keap_update_keap_contact( $user_id );
 }
 add_action( 'user_register', 'pmpro_keap_user_register', 10, 1 );
@@ -127,6 +130,11 @@ add_action( 'user_register', 'pmpro_keap_user_register', 10, 1 );
  * @since 1.0
  */
 function pmpro_keap_pmpro_after_change_membership_level( $old_user_levels ) {
+	$keap = PMPro_Keap_Api_Wrapper::get_instance();
+	//Bail if Keap is not authorized. We can't run the update without it.
+	if ( ! $keap->is_keap_api_authorized() ) {
+		return;
+	}
 	// Get unique user IDs from the old user levels.
 	$user_ids = array_unique( array_keys( $old_user_levels ) );
 
@@ -143,6 +151,12 @@ add_action( 'pmpro_after_all_membership_level_changes', 'pmpro_keap_pmpro_after_
  * @since 1.0
  */
 function pmpro_keap_profile_update( $user_id, $old_user_data ) {
+	//Bail if Keap is not authorized.
+	$keap = PMPro_Keap_Api_Wrapper::get_instance();
+	if ( ! $keap->is_keap_api_authorized() ) {
+		return;
+	}
+
 	pmpro_keap_update_keap_contact( $user_id );
 }
 add_action( 'profile_update', 'pmpro_keap_profile_update', 10, 2 );

@@ -16,6 +16,8 @@ class PMPro_Keap_Api_Wrapper {
 	const TOKEN_URL         = 'https://api.infusionsoft.com/token';
 	const BASE_API_URL      = 'https://api.infusionsoft.com/crm/rest/v1/';
 	const REDIRECT_URI      = 'admin.php?page=pmpro-keap';
+	const ERROR_CODES = array( 'keymanagement.service.access_token_expired', 'keymanagement.service.invalid_access_token',
+		'keymanagement.service.access_token_not_approved', 'oauth.v2.InvalidAccessToken', 'keymanagement.service.invalid_client-client_id_not_approved' );
 
 	/**
 	 * Constructor
@@ -151,9 +153,7 @@ class PMPro_Keap_Api_Wrapper {
 		);
 
 		$response    = $this->pmpro_keap_make_curl_request( $url, $method, $data, $headers );
-		$error_codes = array( 'keymanagement.service.access_token_expired', 'keymanagement.service.invalid_access_token', 'keymanagement.service.access_token_not_approved', 'oauth.v2.InvalidAccessToken' );
-		if ( isset( $response['fault'] ) &&
-		in_array( $response['fault']['detail']['errorcode'], $error_codes ) ) {
+		if ( isset( $response['fault'] ) && in_array( $response['fault']['detail']['errorcode'], self::ERROR_CODES ) ) {
 			// Token expired, refresh it
 			$refresh_token    = get_option( 'pmpro_keap_refresh_token' );
 			$refresh_response = $this->pmpro_keap_refresh_token( $refresh_token );
@@ -281,6 +281,51 @@ class PMPro_Keap_Api_Wrapper {
 			$tagIds[] = $tag['tag']['id'];
 		}
 		return $tagIds;
+	}
+
+	/**
+	 * Check if the Keap API is authorized.
+	 *
+	 * @return bool True if authorized, false otherwise.
+	 * @since TBD
+	 */
+	public function is_keap_api_authorized() {
+		// Get the stored access token and refresh token.
+		$access_token  = $this->token;
+		$refresh_token = get_option( 'pmpro_keap_refresh_token' );
+
+		// If there's no access token, the API is unauthorized.
+		if ( empty( $access_token ) ) {
+			return false;
+		}
+
+		// Attempt a test API request to validate the token.
+		$response = $this->pmpro_keap_make_request( 'GET', 'contacts?limit=1' );
+
+		// Check if the response indicates an unauthorized token.
+		if ( isset( $response['fault'] ) && in_array( $response['fault']['detail']['errorcode'], self::ERROR_CODES, true ) ) {
+
+			// Token expired, attempt to refresh it.
+			if ( ! empty( $refresh_token ) ) {
+				$refresh_response = $this->pmpro_keap_refresh_token( $refresh_token );
+
+				if ( isset( $refresh_response['access_token'] ) ) {
+					// Token refreshed successfully, update it and return true.
+					$this->token = $refresh_response['access_token'];
+					return true;
+				} else {
+					// Refresh token failed, clear stored tokens.
+					update_option( 'pmpro_keap_access_token', '' );
+					update_otion( 'pmpro_keap_refresh_token', '' );
+					return false;
+				}
+			} else {
+				// No refresh token available, authorization is lost.
+				return false;
+			}
+		}
+
+		return true; // API is authorized.
 	}
 
 	// getters for private attributes
